@@ -1,0 +1,44 @@
+﻿@model IEnumerable<EventEase_Final.Models.Event>
+
+@{
+    ViewData["Title"] = "Events Index";
+}
+
+<h1>Events Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Events" asp-action="Index">
+    <p>
+        <label>Search by Event Name: <input type="text" name="searchString" /></label>
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.EventName)</th>
+            <th>@Html.DisplayNameFor(model => model.EventDate)</th>
+            <th>@Html.DisplayNameFor(model => model.EventDescription)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.EventName)</td>
+                <td>@Html.DisplayFor(modelItem => item.EventDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EventDescription)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Event_ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Event_ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<EventEase_Final.Models.Venue>
+
+@{
+    ViewData["Title"] = "Venues Index";
+}
+
+<h1>Venues Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Venues" asp-action="Index">
+    <p>
+        <label>Venue Name or Location: <input type="text" name="searchString" /></label>
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.VenueName)</th>
+            <th>@Html.DisplayNameFor(model => model.VenueLocation)</th>
+            <th>@Html.DisplayNameFor(model => model.VenueCapacity)</th>
+            <th>@Html.DisplayNameFor(model => model.VenueImage)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.VenueName)</td>
+                <td>@Html.DisplayFor(modelItem => item.VenueLocation)</td>
+                <td>@Html.DisplayFor(modelItem => item.VenueCapacity)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.VenueImage))
+                    {
+                        <img src="@item.VenueImage" alt="@item.VenueName" style="width: 100px; height: auto;" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Venue_ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Venue_ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Venue_ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

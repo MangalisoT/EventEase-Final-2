@@ -1,0 +1,65 @@
+/* Background image covering the entire page */
+.homepage-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    background-image: url('https://images.unsplash.com/photo-1594623930572-300a3011d9ae?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+    z-index: -1;
+    backdrop-filter: blur(10px);
+}
+
+/* Centering and styling the text */
+.text-content {
+    position: absolute;
+    top: 50%;
+    left: 0; /* Move text to the left */
+    transform: translateY(-50%);
+    text-align: left; /* Left-align the text */
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+/* Style for the welcome text */
+.welcome-text {
+    font-size: 1.5rem;
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+/* Style for EventEase - Making it much larger and eye-catching */
+.event-ease {
+    font-weight: bold;
+    font-family: 'Brush Script MT', cursive; /* Writer's calligraphy font */
+    font-size: 5rem; /* Make EventEase much larger */
+    color: #90ee90; /* Light green color that fits with the background image */
+    text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7); /* Stronger shadow for more contrast */
+}
+
+/* Make "The best event management system" smaller */
+.welcome-text p {
+    font-size: 1.2rem;
+}
+
+/* Footer styles */
+.footer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1rem;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
