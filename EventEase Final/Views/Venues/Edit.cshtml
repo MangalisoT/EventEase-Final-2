@@ -1,4 +1,4 @@
-﻿@model EventEase_Final.Models.Venue
+﻿@model EventEase_Final.Models.VenueViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Venue_ID" />
             <div class="form-group">
@@ -29,9 +29,13 @@
                 <span asp-validation-for="VenueCapacity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VenueImage" class="control-label"></label>
-                <input asp-for="VenueImage" class="form-control" />
-                <span asp-validation-for="VenueImage" class="text-danger"></span>
+                <label asp-for="ImageUrl" class="control-label"></label>
+                <img class="figure-img rounded h-50 w-50" src="@Html.DisplayFor(m => m.ImageUrl)" alt="@Html.DisplayFor(m => m.VenueName)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -45,5 +49,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
