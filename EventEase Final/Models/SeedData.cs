@@ -13,18 +13,18 @@ namespace EventEase_Final.Data
             using (var context = new EventEase_FinalContext(
                 serviceProvider.GetRequiredService<DbContextOptions<EventEase_FinalContext>>()))
             {
-                // 🧹 Delete existing data (in correct order due to foreign keys)
+                
                 context.Booking.RemoveRange(context.Booking);
                 context.Event.RemoveRange(context.Event);
                 context.Venue.RemoveRange(context.Venue);
                 context.SaveChanges();
 
-                // 🔁 Reset identity columns (only works for SQL Server)
+                
                 context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Booking', RESEED, 0)");
                 context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Event', RESEED, 0)");
                 context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Venue', RESEED, 0)");
 
-                // 🌱 Seed Venues
+                
                 var venues = new[]
                 {
                     new Venue
