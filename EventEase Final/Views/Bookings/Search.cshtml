@@ -1,0 +1,57 @@
+﻿@model EventEase_Final.Models.BookingsViewModel
+
+@{
+    ViewData["Title"] = "Search Bookings";
+}
+
+<h2>Search Bookings</h2>
+
+<form asp-controller="Bookings" asp-action="Search" method="post">
+    <div>
+        <label asp-for="BookingDate"></label>
+        <input asp-for="BookingDate" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Venue_ID"></label>
+        <input asp-for="Venue_ID" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Event_ID"></label>
+        <input asp-for="Event_ID" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (Model.Bookings != null && Model.Bookings.Any())
+{
+    <h3>Search Results</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Booking Date</th>
+                <th>Venue</th>
+                <th>Event</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model.Bookings)
+            {
+                <tr>
+                    <td>@booking.BookingDate</td>
+                    <td>@booking.Venue?.VenueName</td>
+                    <td>@booking.Event?.EventName</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@booking.Booking_ID">Details</a> |
+                        <a asp-action="Edit" asp-route-id="@booking.Booking_ID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@booking.Booking_ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model.Bookings != null)
+{
+    <p>No bookings found for the given criteria.</p>
+}

@@ -20,24 +20,58 @@ namespace EventEase_Final.Controllers
         }
 
         // GET: Bookings
-        // GET: Bookings
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
         {
-            if (_context.Booking == null)
-            {
-                return Problem("Entity set 'EventEase_FinalContext.Booking'  is null.");
-            }
+            var bookings = await _context.Booking
+                .Include(b => b.Venue)
+                .Include(b => b.Event)
+                .ToListAsync();
 
-            var bookings = from b in _context.Booking
-                           select b;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                bookings = bookings.Where(b => b.Venue_ID.ToString().Contains(searchString) || b.Event_ID.ToString().Contains(searchString));
-            }
-
-            return View(await bookings.ToListAsync());
+            return View(bookings);
         }
+
+        // GET: Bookings/Search
+        public IActionResult Search()
+        {
+            var model = new BookingsViewModel
+            {
+                Bookings = _context.Booking
+                    .Include(b => b.Event)
+                    .Include(b => b.Venue)
+                    .ToList()
+            };
+            return View(model);
+        }
+
+        // POST: Bookings/Search
+        [HttpPost]
+        public IActionResult Search(BookingsViewModel model)
+        {
+            var query = _context.Booking
+                .Include(b => b.Event)
+                .Include(b => b.Venue)
+                .AsQueryable();
+
+            if (model.BookingDate.HasValue)
+            {
+                query = query.Where(b => b.BookingDate == model.BookingDate);
+            }
+
+            if (model.Venue_ID.HasValue)
+            {
+                query = query.Where(b => b.Venue_ID == model.Venue_ID);
+            }
+
+            if (model.Event_ID.HasValue)
+            {
+                query = query.Where(b => b.Event_ID == model.Event_ID);
+            }
+
+            model.Bookings = query.ToList();
+
+            return View(model);
+        }
+
 
 
         // GET: Bookings/Details/5

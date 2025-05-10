@@ -7,15 +7,19 @@
 <h1>Bookings Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a> |
+    <a asp-action="Search">Search Bookings</a>
 </p>
 
+@* 
 <form asp-controller="Bookings" asp-action="Index">
     <p>
         <label>Search by Venue or Event ID: <input type="text" name="searchString" /></label>
         <input type="submit" value="Search" />
     </p>
 </form>
+*@
+
 
 <table class="table">
     <thead>

@@ -1,40 +1,47 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using EventEase_Final.Data;
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<EventEase_FinalContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("EventEase_FinalContext") ?? throw new InvalidOperationException("Connection string 'EventEase_FinalContext' not found.")));
+using EventEase_Final.Services;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
+
+// Register the database context with SQL Server
+builder.Services.AddDbContext<EventEase_FinalContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EventEase_FinalContext")
+                         ?? throw new InvalidOperationException("Connection string 'EventEase_FinalContext' not found.")));
+
+// Register services for the application
 builder.Services.AddControllersWithViews();
 
+// Register the BlobService if needed for image uploading
+builder.Services.AddSingleton<BlobService>();
+
 var app = builder.Build();
+
+// Initialize seed data 
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-
     SeedData.Initialize(services);
 }
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
+app.UseHttpsRedirection(); 
+app.UseStaticFiles(); // Serve static files (CSS, JS, images, etc.)
+
+app.UseRouting(); 
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
+// Set up the default route
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
-app.Run();
+app.Run(); // Start the app
