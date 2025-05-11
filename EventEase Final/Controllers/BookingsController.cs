@@ -105,14 +105,27 @@ namespace EventEase_Final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Booking_ID,BookingDate,Venue_ID,Event_ID")] Booking booking)
         {
+            // Check for existing booking with same venue and date
+            bool isDoubleBooked = await _context.Booking.AnyAsync(b =>
+                b.Venue_ID == booking.Venue_ID &&
+                b.BookingDate == booking.BookingDate
+            );
+
+            if (isDoubleBooked)
+            {
+                ModelState.AddModelError(string.Empty, "This venue is already booked for the selected date.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(booking);
         }
+
 
         // GET: Bookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
