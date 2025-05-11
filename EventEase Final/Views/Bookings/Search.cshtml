@@ -1,57 +1,46 @@
 ﻿@model EventEase_Final.Models.BookingsViewModel
 
-@{
-    ViewData["Title"] = "Search Bookings";
-}
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<h2>Search Bookings</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">Search Bookings</h2>
 
-<form asp-controller="Bookings" asp-action="Search" method="post">
-    <div>
-        <label asp-for="BookingDate"></label>
-        <input asp-for="BookingDate" class="form-control" />
-    </div>
-    <div>
-        <label asp-for="Venue_ID"></label>
-        <input asp-for="Venue_ID" class="form-control" />
-    </div>
-    <div>
-        <label asp-for="Event_ID"></label>
-        <input asp-for="Event_ID" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
+    <form asp-controller="Bookings" asp-action="Search" method="post">
+        <div class="row mb-3">
+            <!-- Booking Date -->
+            <div class="col-md-4">
+                <label asp-for="BookingDate" class="form-label">Booking Date</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                    <input asp-for="BookingDate" type="date" class="form-control" placeholder="Select a date" />
+                </div>
+            </div>
 
-@if (Model.Bookings != null && Model.Bookings.Any())
-{
-    <h3>Search Results</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Booking Date</th>
-                <th>Venue</th>
-                <th>Event</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var booking in Model.Bookings)
-            {
-                <tr>
-                    <td>@booking.BookingDate</td>
-                    <td>@booking.Venue?.VenueName</td>
-                    <td>@booking.Event?.EventName</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@booking.Booking_ID">Details</a> |
-                        <a asp-action="Edit" asp-route-id="@booking.Booking_ID">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@booking.Booking_ID">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else if (Model.Bookings != null)
-{
-    <p>No bookings found for the given criteria.</p>
-}
+            <!-- Venue ID -->
+            <div class="col-md-4">
+                <label asp-for="Venue_ID" class="form-label">Venue ID</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    <input asp-for="Venue_ID" class="form-control" placeholder="Enter Venue ID" />
+                </div>
+            </div>
+
+            <!-- Event ID -->
+            <div class="col-md-4">
+                <label asp-for="Event_ID" class="form-label">Event ID</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-ticket-alt"></i></span>
+                    <input asp-for="Event_ID" class="form-control" placeholder="Enter Event ID" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4">
+                <i class="fas fa-search me-2"></i>Search
+            </button>
+        </div>
+    </form>
+</div>
