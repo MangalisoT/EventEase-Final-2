@@ -43,4 +43,35 @@
             </button>
         </div>
     </form>
+
+    <!-- Search Results -->
+    @if (Model.Bookings != null && Model.Bookings.Any())
+    {
+        <h3 class="mt-5">Search Results</h3>
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Event</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model.Bookings)
+                {
+                    <tr>
+                        <td>@booking.Booking_ID</td>
+                        <td>@booking.BookingDate</td>
+                        <td>@booking.Venue?.VenueName</td>
+                        <td>@booking.Event?.EventName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else if (Model.Bookings != null)
+    {
+        <p class="mt-4 text-warning">No bookings found matching the search criteria.</p>
+    }
 </div>
