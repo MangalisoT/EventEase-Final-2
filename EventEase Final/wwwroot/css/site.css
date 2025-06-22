@@ -63,3 +63,64 @@
     font-family: Arial, sans-serif;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
+
+/* ---- EventEase Custom Styles ---- */
+
+body {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-line {
+    position: relative;
+    margin-left: 30px;
+    border-left: 3px solid #6a11cb;
+    padding-left: 20px;
+}
+
+.timeline-event {
+    margin-bottom: 30px;
+}
+
+.timeline-bullet {
+    position: absolute;
+    left: -10px;
+    top: 0;
+    background: #6a11cb;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+.event-content {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border-left: 3px solid #2575fc;
+}
+
+.gradient-button {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    border: none;
+}
+
+    .gradient-button:hover {
+        background: linear-gradient(to right, #2575fc, #6a11cb);
+    }

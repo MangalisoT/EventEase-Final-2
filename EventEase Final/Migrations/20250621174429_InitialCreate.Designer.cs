@@ -4,6 +4,7 @@ using EventEase_Final.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventEase_Final.Migrations
 {
     [DbContext(typeof(EventEase_FinalContext))]
-    partial class EventEase_FinalContextModelSnapshot : ModelSnapshot
+    [Migration("20250621174429_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,14 +33,11 @@ namespace EventEase_Final.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Booking_ID"));
 
-                    b.Property<DateOnly>("EndDate")
+                    b.Property<DateOnly>("BookingDate")
                         .HasColumnType("date");
 
                     b.Property<int>("Event_ID")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
 
                     b.Property<int>("Venue_ID")
                         .HasColumnType("int");

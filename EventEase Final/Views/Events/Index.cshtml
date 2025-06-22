@@ -1,44 +1,85 @@
 ﻿@model IEnumerable<EventEase_Final.Models.Event>
 
 @{
-    ViewData["Title"] = "Events Index";
+    ViewData["Title"] = "Events";
 }
 
-<h1>Events Index</h1>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Events</h2>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Create New Event
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <!-- Search Form -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form asp-action="Index" method="get">
+                <div class="input-group">
+                    <input type="text" name="searchString" class="form-control" placeholder="Search events..." />
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<form asp-controller="Events" asp-action="Index">
-    <p>
-        <label>Search by Event Name: <input type="text" name="searchString" /></label>
-        <input type="submit" value="Search" />
-    </p>
-</form>
+    <!-- Events Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.EventName)</th>
+                    <th>@Html.DisplayNameFor(model => model.EventDate)</th>
+                    <th>Event Type</th>
+                    <th>@Html.DisplayNameFor(model => model.EventDescription)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.EventName)</strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventDate)
+                        </td>
+                        <td>
+                            <span class="badge bg-info text-white">
+                                @(item.EventType?.TypeName ?? "No Type")
+                            </span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventDescription)
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.Event_ID" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.Event_ID" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-eye"></i> Details
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Event_ID" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.EventName)</th>
-            <th>@Html.DisplayNameFor(model => model.EventDate)</th>
-            <th>@Html.DisplayNameFor(model => model.EventDescription)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.EventName)</td>
-                <td>@Html.DisplayFor(modelItem => item.EventDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.EventDescription)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Event_ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Event_ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Event_ID">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h4>No events found</h4>
+            <p>There are no events to display. <a asp-action="Create">Create your first event</a>!</p>
+        </div>
+    }
+</div>

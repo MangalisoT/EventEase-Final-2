@@ -21,14 +21,15 @@ namespace EventEase_Final.Controllers
 
         // GET: Events
         // GET: Events
+        // GET: Events
         public async Task<IActionResult> Index(string searchString)
         {
             if (_context.Event == null)
             {
-                return Problem("Entity set 'EventEase_FinalContext.Event'  is null.");
+                return Problem("Entity set 'EventEase_FinalContext.Event' is null.");
             }
 
-            var events = from e in _context.Event
+            var events = from e in _context.Event.Include(e => e.EventType)
                          select e;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -41,6 +42,7 @@ namespace EventEase_Final.Controllers
 
 
         // GET: Events/Details/5
+        // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,7 +51,9 @@ namespace EventEase_Final.Controllers
             }
 
             var @event = await _context.Event
+                .Include(e => e.EventType)  // Include the EventType data
                 .FirstOrDefaultAsync(m => m.Event_ID == id);
+
             if (@event == null)
             {
                 return NotFound();
@@ -59,17 +63,18 @@ namespace EventEase_Final.Controllers
         }
 
         // GET: Events/Create
+        // GET: Events/Create
         public IActionResult Create()
         {
+            // Populate the dropdown with active event types
+            ViewData["EventType_ID"] = new SelectList(_context.EventType.Where(et => et.IsActive), "EventType_ID", "TypeName");
             return View();
         }
 
         // POST: Events/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Event_ID,EventName,EventDate,EventDescription")] Event @event)
+        public async Task<IActionResult> Create([Bind("Event_ID,EventName,EventDate,EventDescription,EventType_ID")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -77,9 +82,13 @@ namespace EventEase_Final.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // If we got this far, something failed, redisplay form with dropdown populated
+            ViewData["EventType_ID"] = new SelectList(_context.EventType.Where(et => et.IsActive), "EventType_ID", "TypeName", @event.EventType_ID);
             return View(@event);
         }
 
+        // GET: Events/Edit/5
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -93,15 +102,16 @@ namespace EventEase_Final.Controllers
             {
                 return NotFound();
             }
+
+            // Populate the dropdown with active event types
+            ViewData["EventType_ID"] = new SelectList(_context.EventType.Where(et => et.IsActive), "EventType_ID", "TypeName", @event.EventType_ID);
             return View(@event);
         }
 
         // POST: Events/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Event_ID,EventName,EventDate,EventDescription")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Event_ID,EventName,EventDate,EventDescription,EventType_ID")] Event @event)
         {
             if (id != @event.Event_ID)
             {
@@ -128,6 +138,9 @@ namespace EventEase_Final.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // If we got this far, something failed, redisplay form with dropdown populated
+            ViewData["EventType_ID"] = new SelectList(_context.EventType.Where(et => et.IsActive), "EventType_ID", "TypeName", @event.EventType_ID);
             return View(@event);
         }
 

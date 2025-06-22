@@ -1,36 +1,60 @@
 ﻿@model EventEase_Final.Models.Event
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Event Details";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-calendar-alt"></i> Event Details
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.EventName)</dt>
+                        <dd class="col-sm-9">
+                            <strong>@Html.DisplayFor(model => model.EventName)</strong>
+                        </dd>
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventDescription)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Event_ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.EventDate)</dt>
+                        <dd class="col-sm-9">
+                            <i class="fas fa-calendar"></i> @Html.DisplayFor(model => model.EventDate)
+                        </dd>
+
+                        <dt class="col-sm-3">Event Type</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-info text-white fs-6">
+                                <i class="fas fa-tag"></i> @(Model.EventType?.TypeName ?? "No Type Assigned")
+                            </span>
+                            @if (!string.IsNullOrEmpty(Model.EventType?.Description))
+                            {
+                                <br>
+                            
+                                <small class="text-muted">@Model.EventType.Description</small>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.EventDescription)</dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.EventDescription)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@Model.Event_ID" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-list"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
